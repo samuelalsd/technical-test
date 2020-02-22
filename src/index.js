@@ -1,8 +1,16 @@
+import {
+  emptySearchResults,
+  emptyDetailedSnippet,
+  fetchAndRender
+} from "./countries-search";
+
 import "./styles.css";
 
 // DOM Elements of the UI we will need to manipulate
 const searchInput = document.querySelector("#countries-search");
 const clearSearchBtn = document.querySelector("#clear-search-btn");
+
+console.log(fetchAndRender);
 
 // Listen to keyup on search input
 searchInput.addEventListener("keyup", e => {

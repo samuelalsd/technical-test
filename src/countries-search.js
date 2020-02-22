@@ -1,3 +1,6 @@
+import apiClient from "./apiClient";
+import { humanizeNumber } from "./helpers";
+
 // DOM Elements of the UI we will need to manipulate
 const searchInput = document.querySelector("#countries-search");
 const clearSearchBtn = document.querySelector("#clear-search-btn");
@@ -143,7 +146,7 @@ const emptyDetailedSnippet = () => {
   resultSnippet.innerHTML = "";
 };
 
-const fetchAndRender = terms => {
+export const fetchAndRender = terms => {
   apiClient.countries
     .fetchAllMatchingName(terms)
     .then(response => response.json())
@@ -159,7 +162,3 @@ const fetchAndRender = terms => {
       }
     });
 };
-
-window.fetchAndRender = fetchAndRender;
-window.emptyDetailedSnippet = emptyDetailedSnippet;
-window.emptySearchResults = emptySearchResults;
