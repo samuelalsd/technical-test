@@ -147,18 +147,21 @@ const emptyDetailedSnippet = () => {
 };
 
 export const fetchAndRender = terms => {
-  apiClient.countries
-    .fetchAllMatchingName(terms)
-    .then(response => response.json())
-    .then(result => {
-      if (result.length) {
-        showCountriesSearchResults(result);
-        showCountryDetailedSnippet(result[0]);
+  let authorizedString = new RegExp(/^[a-zA-Z\u00C0-\u00FF]*$/);
+  if (terms.match(authorizedString)) {
+    apiClient.countries
+      .fetchAllMatchingName(terms)
+      .then(response => response.json())
+      .then(result => {
+        if (result.length) {
+          showCountriesSearchResults(result);
+          showCountryDetailedSnippet(result[0]);
 
-        resultsList.querySelector(":first-child").classList.add("selected");
-      } else {
-        emptySearchResults();
-        emptyDetailedSnippet();
-      }
-    });
+          resultsList.querySelector(":first-child").classList.add("selected");
+        } else {
+          emptySearchResults();
+          emptyDetailedSnippet();
+        }
+      });
+  }
 };

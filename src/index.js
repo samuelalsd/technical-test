@@ -10,8 +10,6 @@ import "./styles.css";
 const searchInput = document.querySelector("#countries-search");
 const clearSearchBtn = document.querySelector("#clear-search-btn");
 
-console.log(fetchAndRender);
-
 // Listen to keyup on search input
 searchInput.addEventListener("keyup", e => {
   if (e.target.value) {
