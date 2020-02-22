@@ -143,7 +143,7 @@ const emptyDetailedSnippet = () => {
 	resultSnippet.innerHTML = '';
 }
 
-const fetchAndRendered = (terms) => {
+const fetchAndRender = (terms) => {
 	apiClient.countries.fetchAllMatchingName(terms)
 		.then(response => response.json())
 		.then(result => {
