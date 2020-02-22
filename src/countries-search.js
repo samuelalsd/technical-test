@@ -2,35 +2,36 @@
 const searchInput = document.querySelector("#countries-search");
 const clearSearchBtn = document.querySelector("#clear-search-btn");
 const resultsList = document.querySelector("#countries-search-results-list");
-const resultSnippet = document.querySelector("#countries-search-results-snippet");
+const resultSnippet = document.querySelector(
+  "#countries-search-results-snippet"
+);
 
 // Template for a country result list item
 const CountryListItem = item => {
-	let container = document.createElement('div');
-	container.className = 'cursor-pointer country-list-item';
+  let container = document.createElement("div");
+  container.className = "cursor-pointer country-list-item";
 
-	container.innerHTML =
-		`<small>${item.alpha3Code}</small>
-		<h4>${item.name}</h4>`
-	;
+  container.innerHTML = `<small>${item.alpha3Code}</small>
+		<h4>${item.name}</h4>`;
 
-	container.addEventListener('click', e => {
-		resultsList.querySelectorAll('.country-list-item').forEach(item => item.classList.remove('selected'));
-		container.classList.add('selected');
+  container.addEventListener("click", e => {
+    resultsList
+      .querySelectorAll(".country-list-item")
+      .forEach(item => item.classList.remove("selected"));
+    container.classList.add("selected");
 
-		showCountryDetailedSnippet(item);
-	})
+    showCountryDetailedSnippet(item);
+  });
 
-	return container;
+  return container;
 };
 
 // Template for a country result detailed snippet
 const DetailedSnippet = item => {
-	let container = document.createElement('div');
-	container.className = 'country-detailed-snippet';
+  let container = document.createElement("div");
+  container.className = "country-detailed-snippet";
 
-	container.innerHTML =
-		`<div class="country-detailed-snippet-header">
+  container.innerHTML = `<div class="country-detailed-snippet-header">
 			<div class="row justify-start align-start">
 				<div class="country-flag">
 					<img src="${item.flag}" alt="${item.name}" />
@@ -58,103 +59,107 @@ const DetailedSnippet = item => {
 			<div class="row card-info-row">
 				<label>Languages</label>
 				<div>
-					${
-						item.languages
-							.map(l => '<strong>' + l.name + '</strong>')
-							.join('<br>')
-					}
+					${item.languages.map(l => "<strong>" + l.name + "</strong>").join("<br>")}
 				</div>
 			</div>
 			<div class="row card-info-row">
 				<label>Currencies</label>
 				<div>
-					${
-						item.currencies
-							.map(c => {
-								let symbol = c.symbol ? '<span class="tag">' + c.symbol + '</span>' : '';
-								let code = c.code ? '(' + c.code + ')' : '';
-								return symbol + ' <strong>' + c.name + '</strong> ' + code;
-							}).join('<br>')
-					}
+					${item.currencies
+            .map(c => {
+              let symbol = c.symbol
+                ? '<span class="tag">' + c.symbol + "</span>"
+                : "";
+              let code = c.code ? "(" + c.code + ")" : "";
+              return symbol + " <strong>" + c.name + "</strong> " + code;
+            })
+            .join("<br>")}
 				</div>
 			</div>
 			<div class="row card-info-row">
 				<label>Border countries</label>
 				<div id="border-countries-list">Loading...</div>
 			</div>
-		</div>`
-	;
+		</div>`;
 
-	return container;
+  return container;
 };
 
 // Make an API call to fetch countries matching the border countries codes
 const fetchBorderCountries = async country => {
-	const listElement = document.querySelector('#border-countries-list');
-	try {
-		const response = await apiClient.countries.fetchAllMatchingCodes(country.borders);
-		const result = await response.json();
+  const listElement = document.querySelector("#border-countries-list");
+  try {
+    const response = await apiClient.countries.fetchAllMatchingCodes(
+      country.borders
+    );
+    const result = await response.json();
 
-		if(result.length) {
-			let list = document.createElement('p');
-			list.className = 'border-countries-list';
+    if (result.length) {
+      let list = document.createElement("p");
+      list.className = "border-countries-list";
 
-			result.forEach(item => {
-				let cName = document.createElement('strong');
-				let cNameIcon = document.createElement('i');
-				cNameIcon.className = 'fas fa-search cursor-pointer border-country-search';
-				cName.innerHTML = item.name;
-				cNameIcon.addEventListener('click', e => {
-					searchInput.value = item.name;
-					fetchAndRender(item.name);
-				})
-				cName.append(cNameIcon);
-				list.append(cName);
-			});
-	
-			listElement.innerHTML = '';
-			listElement.appendChild(list);
-		} else {
-			listElement.innerHTML = 'None.';
-		}
-	} catch(err) {
-		console.log(err);
-	}
-}
+      result.forEach(item => {
+        let cName = document.createElement("strong");
+        let cNameIcon = document.createElement("i");
+        cNameIcon.className =
+          "fas fa-search cursor-pointer border-country-search";
+        cName.innerHTML = item.name;
+        cNameIcon.addEventListener("click", e => {
+          searchInput.value = item.name;
+          fetchAndRender(item.name);
+        });
+        cName.append(cNameIcon);
+        list.append(cName);
+      });
+
+      listElement.innerHTML = "";
+      listElement.appendChild(list);
+    } else {
+      listElement.innerHTML = "None.";
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
 
 const showCountriesSearchResults = result => {
-	resultsList.innerHTML = '';
-	result.forEach(item => {
-		resultsList.appendChild(CountryListItem(item))
-	});
-}
+  resultsList.innerHTML = "";
+  result.forEach(item => {
+    resultsList.appendChild(CountryListItem(item));
+  });
+};
 
 const emptySearchResults = () => {
-	resultsList.innerHTML = 'No result found...';
-}
+  resultsList.innerHTML = "No result found...";
+};
 
 const showCountryDetailedSnippet = country => {
-	resultSnippet.innerHTML = '';
-	resultSnippet.appendChild(DetailedSnippet(country));
-	fetchBorderCountries(country);
-}
+  resultSnippet.innerHTML = "";
+  resultSnippet.appendChild(DetailedSnippet(country));
+  fetchBorderCountries(country);
+};
 
 const emptyDetailedSnippet = () => {
-	resultSnippet.innerHTML = '';
-}
+  resultSnippet.innerHTML = "";
+};
 
-const fetchAndRender = (terms) => {
-	apiClient.countries.fetchAllMatchingName(terms)
-		.then(response => response.json())
-		.then(result => {
-			if (result.length) {
-				showCountriesSearchResults(result);
-				showCountryDetailedSnippet(result[0]);
-				
-				resultsList.querySelector(':first-child').classList.add('selected');
-			} else {
-				emptySearchResults();
-				emptyDetailedSnippet();
-			}
-		});
-}
+const fetchAndRender = terms => {
+  apiClient.countries
+    .fetchAllMatchingName(terms)
+    .then(response => response.json())
+    .then(result => {
+      if (result.length) {
+        showCountriesSearchResults(result);
+        showCountryDetailedSnippet(result[0]);
+
+        resultsList.querySelector(":first-child").classList.add("selected");
+      } else {
+        emptySearchResults();
+        emptyDetailedSnippet();
+      }
+    });
+};
+
+window.fetchAndRender = fetchAndRender;
+window.emptyDetailedSnippet = emptyDetailedSnippet;
+window.emptySearchResults = emptySearchResults;
