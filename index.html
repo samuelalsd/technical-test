@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- Responsive meta tag -->
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<!-- Title and charset -->
+		<title>Search country information</title>
+		<meta charset="UTF-8" />
+		<!-- Stylesheets -->
+		<link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900&display=swap" rel="stylesheet">
+		<link rel="stylesheet" href="src/styles.css" />
+		<!-- External Scripts -->
+		<script src="https://kit.fontawesome.com/8951845dc9.js" crossorigin="anonymous"></script>
+		<!-- Inter Scripts -->
+		<script src="src/helpers.js"></script>
+		<script src="src/apiClient.js"></script>
+	</head>
+	<body class="dark-mode">
+		<div class="col justify-start" id="app">
+
+			<header id="app-header">
+				<div class="row justify-between align-center">
+					<div class="row justify-start align-center form-field" id="search-container">
+						<i class="fas fa-search"></i>
+						<input
+							type="text"
+							id="countries-search"
+							placeholder="Search for a country..."
+							autofocus="true"
+						/>
+						<span class="cursor-pointer" id="clear-search-btn" title="Clear search">
+							<i class="fas fa-times"></i>
+						</span>
+					</div>
+				</div>
+			</header>
+
+			<div id="wrapper">
+				<section id="main">
+					<div id="countries-search-results-container">
+						<div class="medium section row justify-between align-start wrap" id="countries-search-results">
+							<div id="countries-search-results-list"></div>
+							<div id="countries-search-results-snippet"></div>
+						</div>
+					</div>
+				</section>
+				<!-- Options -->
+				<div class="cursor-pointer enabled" id="dark-mode-trigger" title="Enable/Disable dark mode">
+					<i class="far fa-moon"></i>
+				</div>
+			</div>
+
+		</div>
+
+		<!-- Internal Scripts -->
+		<script src="src/countries-search.js"></script>
+		<script src="src/index.js"></script>
+	</body>
+</html>
