@@ -21,7 +21,7 @@ const CountryListItem = item => {
 		showCountryDetailedSnippet(item);
 	})
 
-	return container;
+	return containerr;
 };
 
 // Template for a country result detailed snippet
