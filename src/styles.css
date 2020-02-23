@@ -35,7 +35,7 @@ body {
 body {
   min-height: 100vh;
   background-color: rgba(197, 202, 202, 0.11);
-  background-image: url(../World_Map.svg);
+  background-image: url(https://www.inova-software.com/wp-content/uploads/2020/02/World_Map.svg);
   background-position: top 66px center;
   background-size: cover;
   background-repeat: no-repeat;
@@ -533,10 +533,6 @@ section {
   flex-grow: 1;
 }
 
-.card-info-row .border-countries-list strong {
-  display: block;
-}
-
 .border-country-search {
   opacity: 0;
   visibility: hidden;
@@ -545,9 +541,12 @@ section {
   transition: all 234ms ease-out;
 }
 
-strong:hover .border-country-search {
-  opacity: 1;
-  visibility: visible;
+.country-link {
+  display: block;
+}
+
+.country-link:hover {
+  text-decoration: underline;
 }
 
 /* Media Queries */

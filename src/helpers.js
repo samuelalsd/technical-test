@@ -7,7 +7,7 @@ export const humanizeNumber = number => {
     numberString.push(
       Math.round((number / 1000000000 + Number.EPSILON) * 100) / 100
     );
-    suffix = "D";
+    suffix = "B";
   } else if (number > 1000000) {
     numberString.push(
       Math.round((number / 1000000 + Number.EPSILON) * 100) / 100

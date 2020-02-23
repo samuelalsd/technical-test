@@ -102,15 +102,12 @@ const fetchBorderCountries = async country => {
 
       result.forEach(item => {
         let cName = document.createElement("strong");
-        let cNameIcon = document.createElement("i");
-        cNameIcon.className =
-          "fas fa-search cursor-pointer border-country-search";
+        cName.className = "cursor-pointer country-link";
         cName.innerHTML = item.name;
-        cNameIcon.addEventListener("click", e => {
+        cName.addEventListener("click", e => {
           searchInput.value = item.name;
           fetchAndRender(item.name);
         });
-        cName.append(cNameIcon);
         list.append(cName);
       });
 
@@ -131,7 +128,7 @@ const showCountriesSearchResults = result => {
   });
 };
 
-const emptySearchResults = () => {
+export const emptySearchResults = () => {
   resultsList.innerHTML = "No result found...";
 };
 
@@ -141,26 +138,23 @@ const showCountryDetailedSnippet = country => {
   fetchBorderCountries(country);
 };
 
-const emptyDetailedSnippet = () => {
+export const emptyDetailedSnippet = () => {
   resultSnippet.innerHTML = "";
 };
 
 export const fetchAndRender = terms => {
-  let authorizedString = new RegExp(/^[a-zA-Z\u00C0-\u00FF]*$/);
-  if (terms.match(authorizedString)) {
-    apiClient.countries
-      .fetchAllMatchingName(terms)
-      .then(response => response.json())
-      .then(result => {
-        if (result.length) {
-          showCountriesSearchResults(result);
-          showCountryDetailedSnippet(result[0]);
+  apiClient.countries
+    .fetchAllMatchingName(terms)
+    .then(response => response.json())
+    .then(result => {
+      if (result.length) {
+        showCountriesSearchResults(result);
+        showCountryDetailedSnippet(result[0]);
 
-          resultsList.querySelector(":first-child").classList.add("selected");
-        } else {
-          emptySearchResults();
-          emptyDetailedSnippet();
-        }
-      });
-  }
+        resultsList.querySelector(":first-child").classList.add("selected");
+      } else {
+        emptySearchResults();
+        emptyDetailedSnippet();
+      }
+    });
 };

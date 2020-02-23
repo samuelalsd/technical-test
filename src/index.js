@@ -22,7 +22,9 @@ searchInput.addEventListener("keyup", e => {
 
 // Render search results
 const renderSearchResults = keywords => {
-  if (keywords) {
+  let authorizedString = new RegExp(/^[a-z A-Z\u00C0-\u00FF]*$/);
+  keywords = keywords.trim();
+  if (keywords.match(authorizedString) && keywords !== "") {
     fetchAndRender(keywords);
   } else {
     emptySearchResults();
